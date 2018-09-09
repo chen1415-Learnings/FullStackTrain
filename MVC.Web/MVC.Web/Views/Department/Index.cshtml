@@ -1,0 +1,69 @@
+﻿@model IEnumerable<MVC.Web.Models.Department>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DepartmentName)
+        </th>
+        <th>
+            Employees
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DepartmentHead)
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        using (@Html.BeginForm("Delete", "Department", new { id = item.ID }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartmentName)
+                </td>
+
+                <td>
+                    <table class="table table-hover">
+                        @foreach (var employee in item.Employees)
+                        {
+                            <tr>
+                                <td>@employee.Name</td>
+                                <td>@employee.Gender</td>
+                                <td>@employee.Salary</td>
+                            </tr>
+                        }
+                    </table>
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartmentHead)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                    <input type="submit" value="Delete" onclick='return confirm("Do you want to delete?")' />
+                </td>
+            </tr>
+        }
+
+    }
+</table>
